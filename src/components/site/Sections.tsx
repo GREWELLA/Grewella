@@ -151,9 +151,9 @@ export function Services({ full = false }: { full?: boolean }) {
 
 /* ---------------- PORTFOLIO ---------------- */
 const WORK = [
-  { img: aurelia, name: "Aurelia Clinic", industry: "Healthcare", why: "Warm whites, deep green and restrained gold build calm trust. The appointment button is always one tap away.", tint: "from-[oklch(0.45_0.08_160)]" },
-  { img: craft, name: "Local Craft", industry: "Retail", why: "Warm neutrals and editorial type let handmade products lead. Categories are scannable on small screens.", tint: "from-[oklch(0.6_0.06_70)]" },
-  { img: meridian, name: "Meridian Advisory", industry: "Professional services", why: "A structured grid and confident navy with a coral accent make the enquiry path unmistakable.", tint: "from-[oklch(0.3_0.07_260)]" },
+  { img: aurelia, name: "Aurelia Clinic", industry: "Healthcare", why: "Warm whites, deep green and restrained gold build calm trust. The appointment button is always one tap away." },
+  { img: craft, name: "Local Craft", industry: "Retail", why: "Warm neutrals and editorial type let handmade products lead. Categories are scannable on small screens." },
+  { img: meridian, name: "Meridian Advisory", industry: "Professional services", why: "A structured grid and confident navy with a coral accent make the enquiry path unmistakable." },
 ];
 export function Portfolio() {
   const [active, setActive] = useState(0);
@@ -217,7 +217,7 @@ export function BeforeAfter() {
           {/* BEFORE */}
           <div className="absolute inset-0 overflow-hidden bg-muted" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
             <div className="p-4 font-serif text-ink">
-              <marquee-like className="block bg-destructive/80 p-1 text-center text-xs">!!! WELCOME TO OUR WEBSITE !!! BEST BAKERY !!!</marquee-like>
+              <div className="block bg-destructive/80 p-1 text-center text-xs">!!! WELCOME TO OUR WEBSITE !!! BEST BAKERY !!!</div>
               <p className="mt-3 text-3xl italic text-violet">crumb and co bakery shop</p>
               <p className="mt-2 text-[10px] leading-tight">We are bakery since many years and we make all kinds of bread cake pastry cookies biscuit and more please visit our shop for more information about our products and services and timing and location details click here...</p>
               <div className="mt-3 grid grid-cols-4 gap-1">{Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-8 border border-ink/40 bg-card" />)}</div>
