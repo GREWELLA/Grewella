@@ -36,7 +36,7 @@ export const bookingSchema = z.object({
 
 type Result = { ok: true } | { ok: false; error: string };
 
-function spamCheck(d: { website_url?: string; startedAt: number }) {
+function spamCheck(d: { website_url?: string | undefined; startedAt: number }) {
   return !!d.website_url || Date.now() - d.startedAt < 3000;
 }
 

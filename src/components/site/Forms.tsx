@@ -5,9 +5,9 @@ import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { bookingSchema, enquirySchema, submitBooking, submitEnquiry } from "@/lib/leads.functions";
 import { BUDGET_OPTIONS, CATEGORY_OPTIONS, MEETING_TYPES, SERVICE_OPTIONS, TIME_SLOTS, waLink } from "@/lib/site";
 
-type Errors = Record<string, string>;
+type Errors = Partial<Record<"name"|"business"|"category"|"phone"|"email"|"website"|"service"|"budget"|"requirements"|"contactMethod"|"privacy"|"marketing"|"meetingType"|"topic"|"date"|"slot", string>>;
 
-function Field({ id, label, error, optional, children }: { id: string; label: string; error?: string; optional?: boolean; children: ReactNode }) {
+function Field({ id, label, error, optional, children }: { id: string; label: string; error?: string | undefined; optional?: boolean; children: ReactNode }) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">{label}{optional && <span className="font-normal text-muted-foreground"> (optional)</span>}</label>
@@ -16,7 +16,7 @@ function Field({ id, label, error, optional, children }: { id: string; label: st
     </div>
   );
 }
-const a = (e: Errors, k: string) => ({ id: k, name: k, "aria-invalid": !!e[k], "aria-describedby": e[k] ? `${k}-err` : undefined, className: "field" });
+const a = (e: Errors, k: keyof Errors) => ({ id: k, name: k, "aria-invalid": !!e[k], "aria-describedby": e[k] ? `${k}-err` : undefined, className: "field" });
 
 function Consent({ e }: { e: Errors }) {
   return (
@@ -49,21 +49,21 @@ function useSubmit(kind: "enquiry" | "booking") {
     ev.preventDefault();
     const fd = new FormData(ev.currentTarget);
     const raw: Record<string, unknown> = Object.fromEntries(fd.entries());
-    raw.privacy = fd.get("privacy") === "on";
-    raw.marketing = fd.get("marketing") === "on";
+    raw["privacy"] = fd.get("privacy") === "on";
+    raw["marketing"] = fd.get("marketing") === "on";
     const schema = kind === "enquiry" ? enquirySchema : bookingSchema;
     const parsed = schema.safeParse(raw);
     if (!parsed.success) {
       const e: Errors = {};
-      parsed.error.issues.forEach((i) => { const k = String(i.path[0]); e[k] ??= i.message; });
+      parsed.error.issues.forEach((i) => { const k = String(i.path[0]) as keyof Errors; e[k] ??= i.message; });
       setErrors(e);
-      document.getElementById(Object.keys(e)[0])?.focus();
+      const first = Object.keys(e)[0]; if (first) document.getElementById(first)?.focus();
       return;
     }
     setErrors({});
     setState("loading");
     try {
-      const r = await fn({ data: { ...parsed.data, website_url: String(raw.website_url ?? ""), startedAt: started.current } as never });
+      const r = await fn({ data: { ...parsed.data, website_url: String(raw["website_url"] ?? ""), startedAt: started.current } as never });
       if (r.ok) setState("done");
       else { setState("fail"); setMsg(r.error); }
     } catch {
@@ -98,7 +98,7 @@ function Footer({ state, msg, label }: { state: string; msg: string; label: stri
   );
 }
 
-export function EnquiryForm({ defaultService }: { defaultService?: string }) {
+export function EnquiryForm({ defaultService }: { defaultService?: string | undefined }) {
   const { errors: e, state, msg, onSubmit } = useSubmit("enquiry");
   if (state === "done") return <Success title="Thanks — your enquiry is in.">We've saved your details and will get back to you using your preferred contact method, usually within one or two working days.</Success>;
   return (

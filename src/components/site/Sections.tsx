@@ -157,7 +157,7 @@ const WORK = [
 ];
 export function Portfolio() {
   const [active, setActive] = useState(0);
-  const w = WORK[active];
+  const w = WORK[active] ?? WORK[0]!;
   return (
     <section className="bg-midnight py-24 text-on-dark lg:py-32">
       <div className="container-g">
