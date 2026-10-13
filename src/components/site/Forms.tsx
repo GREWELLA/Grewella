@@ -98,7 +98,7 @@ function Footer({ state, msg, label }: { state: string; msg: string; label: stri
   );
 }
 
-export function EnquiryForm({ defaultService }: { defaultService?: string }) {
+export function EnquiryForm({ defaultService }: { defaultService?: string | undefined }) {
   const { errors: e, state, msg, onSubmit } = useSubmit("enquiry");
   if (state === "done") return <Success title="Thanks — your enquiry is in.">We've saved your details and will get back to you using your preferred contact method, usually within one or two working days.</Success>;
   return (
