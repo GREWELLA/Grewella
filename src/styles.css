@@ -162,6 +162,9 @@
   .btn-ghost:hover { background: var(--muted); }
   .btn-dark { background: var(--ink); color: var(--on-dark); }
   .btn-dark:hover { transform: translateY(-2px); }
+  .card-lift { transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); will-change: transform; }
+  .card-lift:hover { transform: translateY(-6px) rotate(-.3deg); box-shadow: var(--shadow-float); }
+  .card-lift:active { transform: translateY(-2px); }
   .link-u { background: linear-gradient(currentColor,currentColor) 0 100% / 0 2px no-repeat; transition: background-size .25s var(--ease-out); }
   .link-u:hover, .link-u:focus-visible { background-size: 100% 2px; }
   .eyebrow { font-family: var(--font-display); font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
