@@ -4,7 +4,7 @@ import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import aurelia from "@/assets/work-aurelia.jpg";
 import craft from "@/assets/work-craft.jpg";
 import meridian from "@/assets/work-meridian.jpg";
-import { Reveal, SectionHead } from "./Brand";
+import { CountUp, Reveal, SectionHead } from "./Brand";
 import { Hero3D } from "./Hero3D";
 
 /* ---------------- HERO ---------------- */
@@ -63,7 +63,7 @@ export function Problem() {
         </div>
         <ol className="space-y-4 lg:col-span-7">
           {PROBLEMS.map(([t, d], i) => (
-            <Reveal as="li" key={t} delay={i * 80} className="group flex gap-6 rounded-3xl border border-border bg-card p-6 transition-transform hover:-translate-y-1 sm:p-8">
+            <Reveal as="li" key={t} delay={i * 80} className="card-lift group flex gap-6 rounded-3xl border border-border bg-card p-6 transition-transform hover:-translate-y-1 sm:p-8">
               <span className="font-display text-4xl font-bold text-coral/70">0{i + 1}</span>
               <div><h3 className="text-xl font-semibold text-ink">{t}</h3><p className="mt-2 text-muted-foreground">{d}</p></div>
             </Reveal>
@@ -114,7 +114,7 @@ export function Services({ full = false }: { full?: boolean }) {
 
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           {/* 02 — lead capture */}
-          <Reveal className="rounded-[2rem] bg-coral p-8 text-ink lg:col-span-2 sm:p-10">
+          <Reveal className="card-lift rounded-[2rem] bg-coral p-8 text-ink lg:col-span-2 sm:p-10">
             <p className="eyebrow">02 — Lead capture</p>
             <h3 className="mt-4 text-2xl font-bold sm:text-3xl">Make it easier for customers to reach you — and keep enquiries organised.</h3>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -124,7 +124,7 @@ export function Services({ full = false }: { full?: boolean }) {
             </div>
           </Reveal>
           {/* 03 — automation */}
-          <Reveal delay={100} className="rounded-[2rem] border border-border bg-paper p-8 sm:p-10">
+          <Reveal delay={100} className="card-lift rounded-[2rem] border border-border bg-paper p-8 sm:p-10">
             <Bot className="size-10 text-violet" />
             <p className="eyebrow mt-5 text-violet">03 — Business automation</p>
             <h3 className="mt-3 text-2xl font-bold text-ink">Less repetitive work.</h3>
@@ -289,7 +289,8 @@ export function Pricing({ full = false }: { full?: boolean }) {
         <SectionHead eyebrow="Pricing" title="Choose what your business actually needs." intro="Honest starting points. Every project gets a written scope before any payment." />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {PLANS.map((p, i) => (
-            <Reveal key={p.id} delay={i * 90} className={`flex flex-col rounded-[2rem] p-8 ${p.featured ? "bg-ink text-on-dark shadow-float" : "border border-border bg-card"}`}>
+            <Reveal key={p.id} delay={i * 90} className={`card-lift flex flex-col rounded-[2rem] p-8 ${p.featured ? "lg:-translate-y-4 ring-2 ring-coral" : ""} ${p.featured ? "bg-ink text-on-dark shadow-float" : "border border-border bg-card"}`}>
+              {p.featured && <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-lime px-3 py-1 text-xs font-bold uppercase tracking-wide text-ink"><Sparkles className="size-3.5" />Most popular</span>}
               <h3 className={`text-xl font-semibold ${p.featured ? "" : "text-ink"}`}>{p.name}</h3>
               <p className="mt-5 flex items-baseline gap-2"><span className="font-display text-5xl font-bold">{p.price}</span><span className={p.featured ? "text-on-dark-muted" : "text-muted-foreground"}>{p.unit}</span></p>
               <p className={`mt-3 text-sm ${p.featured ? "text-on-dark-muted" : "text-muted-foreground"}`}>{p.note}</p>
@@ -321,7 +322,7 @@ export function LeadFlow() {
         <SectionHead tone="dark" eyebrow="How enquiries flow" title="A better website makes the next step easier." intro="Here's how a well-built enquiry system works. Notifications depend on which tools are set up for your business." />
         <ol className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
           {FLOW.map(([I, l], i) => (
-            <Reveal as="li" key={l} delay={i * 110} className="relative rounded-2xl border border-line-dark bg-midnight p-5">
+            <Reveal as="li" key={l} delay={i * 110} className="card-lift relative rounded-2xl border border-line-dark bg-midnight p-5">
               <span className="text-xs text-on-dark-muted">Step {i + 1}</span>
               <I className="mt-3 size-7 text-aqua" />
               <p className="mt-3 font-semibold">{l}</p>
@@ -340,12 +341,12 @@ export function Analytics() {
     <section className="py-24 lg:py-32">
       <div className="container-g grid items-center gap-12 lg:grid-cols-2">
         <SectionHead eyebrow="Simple reporting" title="Know what your website is doing." intro="An example of the simple monthly report we can set up. Actual reporting depends on your analytics setup and available data — and visits or clicks are not the same as paying customers." />
-        <Reveal className="rounded-[2rem] border border-border bg-card p-6 shadow-soft sm:p-8">
+        <Reveal className="card-lift rounded-[2rem] border border-border bg-card p-6 shadow-soft sm:p-8">
           <div className="flex items-center justify-between"><h3 className="font-semibold text-ink">Last 30 days</h3><span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">Illustrative demo data</span></div>
           <ul className="mt-6 space-y-5">
             {STATS.map(([l, v, c]) => (
               <li key={l}>
-                <div className="flex justify-between text-sm"><span className="text-muted-foreground">{l}</span><strong className="text-ink">{v.toLocaleString("en-IN")}</strong></div>
+                <div className="flex justify-between text-sm"><span className="text-muted-foreground">{l}</span><strong className="text-ink"><CountUp to={v} /></strong></div>
                 <div className="mt-2 h-3 rounded-full bg-muted"><div className={`h-3 rounded-full ${c}`} style={{ width: `${Math.max(6, Math.sqrt(v / 1240) * 100)}%` }} /></div>
               </li>
             ))}

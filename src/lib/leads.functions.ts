@@ -9,7 +9,7 @@ const anti = { website_url: z.string().max(0).optional(), startedAt: z.number() 
 export const enquirySchema = z.object({
   name: clean(80).pipe(z.string().min(2, "Please enter your name")),
   business: clean(120).pipe(z.string().min(2, "Please enter your business name")),
-  category: clean(60).pipe(z.string().min(1, "Choose a category")),
+  category: z.string({ required_error: "Choose a category" }).pipe(clean(60)).pipe(z.string().min(1, "Choose a category")),
   phone,
   email: z.union([z.literal(""), z.string().trim().email("Enter a valid email").max(120)]),
   website: clean(200),
@@ -29,7 +29,8 @@ export const bookingSchema = z.object({
   meetingType: z.enum(["Phone call", "Video call", "In-person"]),
   topic: clean(500).pipe(z.string().min(5, "Briefly describe the topic")),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Choose a date"),
-  slot: clean(40).pipe(z.string().min(1, "Choose a time slot")),
+  slot: z.string({ required_error: "Choose a time slot" }).pipe(clean(40)).pipe(z.string().min(1, "Choose a time slot")),
+  dataUse: z.literal(true, { errorMap: () => ({ message: "Please agree to how we collect and use your data to book" }) }),
   privacy: z.literal(true, { errorMap: () => ({ message: "Please confirm you have read the privacy notice" }) }),
   marketing: z.boolean(),
 });

@@ -3,9 +3,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { bookingSchema, enquirySchema, submitBooking, submitEnquiry } from "@/lib/leads.functions";
+import { openPrivacyNotice, useConsent } from "./PrivacyNotice";
 import { BUDGET_OPTIONS, CATEGORY_OPTIONS, MEETING_TYPES, SERVICE_OPTIONS, TIME_SLOTS, waLink } from "@/lib/site";
 
-type Errors = Partial<Record<"name"|"business"|"category"|"phone"|"email"|"website"|"service"|"budget"|"requirements"|"contactMethod"|"privacy"|"marketing"|"meetingType"|"topic"|"date"|"slot", string>>;
+type Errors = Partial<Record<"name"|"business"|"category"|"phone"|"email"|"website"|"service"|"budget"|"requirements"|"contactMethod"|"privacy"|"marketing"|"meetingType"|"topic"|"date"|"slot"|"dataUse", string>>;
 
 function Field({ id, label, error, optional, children }: { id: string; label: string; error?: string | undefined; optional?: boolean; children: ReactNode }) {
   return (
@@ -18,7 +19,8 @@ function Field({ id, label, error, optional, children }: { id: string; label: st
 }
 const a = (e: Errors, k: keyof Errors) => ({ id: k, name: k, "aria-invalid": !!e[k], "aria-describedby": e[k] ? `${k}-err` : undefined, className: "field" });
 
-function Consent({ e }: { e: Errors }) {
+function Consent({ e, booking = false }: { e: Errors; booking?: boolean }) {
+  const c = useConsent();
   return (
     <div className="space-y-3 rounded-2xl bg-muted p-4 text-sm">
       <label className="flex gap-3">
@@ -26,9 +28,18 @@ function Consent({ e }: { e: Errors }) {
         <span>I have read the <Link to="/privacy" className="link-u font-semibold text-ink" target="_blank">privacy notice</Link> and agree that Grewella may use these details to respond to my request.</span>
       </label>
       {e.privacy && <p id="privacy-err" className="text-destructive">{e.privacy}</p>}
+      {booking && (
+        <>
+          <label className="flex gap-3">
+            <input type="checkbox" name="dataUse" className="mt-1 size-5 accent-violet" aria-invalid={!!e.dataUse} aria-describedby={e.dataUse ? "dataUse-err" : undefined} />
+            <span><strong className="text-ink">Required:</strong> I agree with how Grewella collects and uses my data to arrange this appointment, as described in the <Link to="/privacy" className="link-u font-semibold text-ink" target="_blank">Privacy Policy</Link> and <Link to="/terms" className="link-u font-semibold text-ink" target="_blank">Terms</Link>.</span>
+          </label>
+          {e.dataUse && <p id="dataUse-err" className="text-destructive">{e.dataUse}</p>}
+        </>
+      )}
       <label className="flex gap-3">
-        <input type="checkbox" name="marketing" className="mt-1 size-5 accent-violet" />
-        <span>Optional: send me occasional tips and offers. You can opt out anytime.</span>
+        <input type="checkbox" name="marketing" className="mt-1 size-5 accent-violet" disabled={!c?.marketing} />
+        <span>Optional: send me occasional tips and offers. You can opt out anytime.{!c?.marketing && " (Turn on marketing in privacy preferences to enable.)"}</span>
       </label>
     </div>
   );
@@ -51,6 +62,7 @@ function useSubmit(kind: "enquiry" | "booking") {
     const raw: Record<string, unknown> = Object.fromEntries(fd.entries());
     raw["privacy"] = fd.get("privacy") === "on";
     raw["marketing"] = fd.get("marketing") === "on";
+    if (kind === "booking") raw["dataUse"] = fd.get("dataUse") === "on";
     const schema = kind === "enquiry" ? enquirySchema : bookingSchema;
     const parsed = schema.safeParse(raw);
     if (!parsed.success) {
@@ -71,6 +83,16 @@ function useSubmit(kind: "enquiry" | "booking") {
     }
   }
   return { errors, state, msg, onSubmit };
+}
+
+function Blocked({ what }: { what: string }) {
+  return (
+    <div className="rounded-3xl border-2 border-dashed border-violet/40 bg-card p-8 text-center">
+      <h2 className="text-xl font-bold text-ink">{what} are turned off</h2>
+      <p className="mt-2 text-muted-foreground">You chose not to allow us to process your details, so we can't accept {what.toLowerCase()} here. Allow "Enquiries & appointments" in your privacy preferences to continue.</p>
+      <button type="button" onClick={openPrivacyNotice} className="btn btn-dark mt-5">Change privacy preferences</button>
+    </div>
+  );
 }
 
 function Success({ title, children }: { title: string; children: ReactNode }) {
@@ -100,6 +122,8 @@ function Footer({ state, msg, label }: { state: string; msg: string; label: stri
 
 export function EnquiryForm({ defaultService }: { defaultService?: string | undefined }) {
   const { errors: e, state, msg, onSubmit } = useSubmit("enquiry");
+  const consent = useConsent();
+  if (consent && !consent.forms) return <Blocked what="Enquiries" />;
   if (state === "done") return <Success title="Thanks — your enquiry is in.">We've saved your details and will get back to you using your preferred contact method, usually within one or two working days.</Success>;
   return (
     <form noValidate onSubmit={onSubmit} className="space-y-5 rounded-3xl bg-card p-6 shadow-soft sm:p-8">
@@ -141,6 +165,8 @@ export function EnquiryForm({ defaultService }: { defaultService?: string | unde
 
 export function BookingForm() {
   const { errors: e, state, msg, onSubmit } = useSubmit("booking");
+  const consent = useConsent();
+  if (consent && !consent.forms) return <Blocked what="Appointments" />;
   const today = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
   if (state === "done") return <Success title="Request received — not yet confirmed.">We'll contact you to confirm a time. Your consultation is only booked once Grewella confirms it. To change or cancel, just reply to our confirmation message or WhatsApp us.</Success>;
   return (
@@ -170,7 +196,7 @@ export function BookingForm() {
         </Field>
       </div>
       <p className="text-sm text-muted-foreground">This is a request, not a confirmed booking. We'll contact you to confirm an exact time.</p>
-      <Consent e={e} />
+      <Consent e={e} booking />
       <Footer state={state} msg={msg} label="Request consultation" />
     </form>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export function GMark({ className = "size-8" }: { className?: string }) {
   return (
@@ -56,4 +56,30 @@ export function SectionHead({ eyebrow, title, intro, tone = "light", center = fa
       {intro && <p className={`mt-5 text-lg leading-relaxed ${tone === "dark" ? "text-on-dark-muted" : "text-muted-foreground"}`}>{intro}</p>}
     </Reveal>
   );
+}
+
+/** Number that counts up when scrolled into view. */
+export function CountUp({ to, ms = 1400 }: { to: number; ms?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setN(to); return; }
+    let raf = 0;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e?.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now();
+      const step = (t: number) => {
+        const p = Math.min((t - t0) / ms, 1);
+        setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [to, ms]);
+  return <span ref={ref} aria-label={to.toLocaleString("en-IN")}>{n.toLocaleString("en-IN")}</span>;
 }
