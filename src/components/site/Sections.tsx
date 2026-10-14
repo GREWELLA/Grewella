@@ -289,7 +289,8 @@ export function Pricing({ full = false }: { full?: boolean }) {
         <SectionHead eyebrow="Pricing" title="Choose what your business actually needs." intro="Honest starting points. Every project gets a written scope before any payment." />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {PLANS.map((p, i) => (
-            <Reveal key={p.id} delay={i * 90} className={`flex flex-col rounded-[2rem] p-8 ${p.featured ? "bg-ink text-on-dark shadow-float" : "border border-border bg-card"}`}>
+            <Reveal key={p.id} delay={i * 90} className={`card-lift flex flex-col rounded-[2rem] p-8 ${p.featured ? "lg:-translate-y-4 ring-2 ring-coral" : ""} ${p.featured ? "bg-ink text-on-dark shadow-float" : "border border-border bg-card"}`}>
+              {p.featured && <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-lime px-3 py-1 text-xs font-bold uppercase tracking-wide text-ink"><Sparkles className="size-3.5" />Most popular</span>}
               <h3 className={`text-xl font-semibold ${p.featured ? "" : "text-ink"}`}>{p.name}</h3>
               <p className="mt-5 flex items-baseline gap-2"><span className="font-display text-5xl font-bold">{p.price}</span><span className={p.featured ? "text-on-dark-muted" : "text-muted-foreground"}>{p.unit}</span></p>
               <p className={`mt-3 text-sm ${p.featured ? "text-on-dark-muted" : "text-muted-foreground"}`}>{p.note}</p>
