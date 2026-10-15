@@ -1,6 +1,6 @@
 - [x] Strengthen light and dark card contrast and highlight selected heading words.
 - [x] Replace the boxed G logo with uppercase GREWELLA in navigation and footer.
 - [x] Verify desktop and phone layouts and shared branding.
-- [ ] Redesign the enquiry journey with connected stages and an interactive illustrative preview.
-- [ ] Review all pages and refine highlight, card, and typography consistency.
-- [ ] Explain Vercel enquiry requirements without changing the current hosting setup.
+- [x] Redesign the enquiry journey with connected stages and an interactive illustrative preview.
+- [x] Review all pages and refine highlight, card, and typography consistency.
+- [x] Explain Vercel enquiry requirements without changing the current hosting setup.
