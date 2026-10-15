@@ -1,29 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-export function GMark({ className = "size-8" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="gm" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="var(--coral)" />
-          <stop offset=".55" stopColor="var(--violet)" />
-          <stop offset="1" stopColor="var(--aqua)" />
-        </linearGradient>
-      </defs>
-      <rect x="2" y="2" width="36" height="36" rx="11" fill="url(#gm)" />
-      <path d="M28 14.5A9 9 0 1 0 29 22h-8.5" fill="none" stroke="var(--ink)" strokeWidth="4.2" strokeLinecap="round" />
-      <circle cx="29" cy="22" r="2.6" fill="var(--lime)" />
-    </svg>
-  );
-}
-
 export function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
   return (
-    <span className="flex items-center gap-2.5">
-      <GMark />
-      <span className={`font-display text-xl font-bold tracking-tight ${tone === "dark" ? "text-on-dark" : "text-ink"}`}>
-        grewella
-      </span>
+    <span className={`font-display text-2xl font-bold tracking-normal ${tone === "dark" ? "text-on-dark" : "text-ink"}`}>
+      GREWELLA
     </span>
   );
 }

@@ -15,7 +15,7 @@ export function Hero() {
         <div className="lg:col-span-6">
           <p className="eyebrow anim-rise text-aqua">Websites for growing businesses</p>
           <h1 className="text-hero anim-rise mt-5 font-bold text-on-dark" style={{ animationDelay: "80ms" }}>
-            Make your business <span className="text-brand">impossible</span> to ignore.
+            Make your business <span className="highlight-word-dark">impossible</span> to ignore.
           </h1>
           <p className="anim-rise mt-6 max-w-xl text-lg leading-relaxed text-on-dark-muted" style={{ animationDelay: "160ms" }}>
             We build thoughtful, high-impact websites and practical digital tools that help businesses earn trust, capture enquiries, and grow online.
@@ -59,7 +59,7 @@ export function Problem() {
     <section className="py-24 lg:py-32">
       <div className="container-g grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-          <SectionHead eyebrow="Why it matters" title="Looking professional online should not be complicated." intro="Many small businesses run into at least one of these. We help untangle whichever ones apply to you." />
+          <SectionHead eyebrow="Why it matters" title={<>Looking <span className="highlight-word">professional online</span> should not be complicated.</>} intro="Many small businesses run into at least one of these. We help untangle whichever ones apply to you." />
         </div>
         <ol className="space-y-4 lg:col-span-7">
           {PROBLEMS.map(([t, d], i) => (
@@ -93,7 +93,7 @@ export function Services({ full = false }: { full?: boolean }) {
   return (
     <section className="bg-card py-24 lg:py-32">
       <div className="container-g">
-        <SectionHead eyebrow="Services" title="Everything your website needs to work for you." intro="Plain-language services, clearly scoped. Each item is marked so you know what's ready today and what needs extra setup." />
+        <SectionHead eyebrow="Services" title={<>Everything your website needs to <span className="highlight-word">work for you.</span></>} intro="Plain-language services, clearly scoped. Each item is marked so you know what's ready today and what needs extra setup." />
 
         {/* 01 — wide feature */}
         <Reveal className="mt-14 grid overflow-hidden rounded-[2rem] bg-ink text-on-dark lg:grid-cols-2">
@@ -134,7 +134,7 @@ export function Services({ full = false }: { full?: boolean }) {
         </div>
 
         {/* 04 — care */}
-        <Reveal className="mt-6 flex flex-col gap-8 rounded-[2rem] border-2 border-dashed border-violet/40 p-8 sm:p-10 md:flex-row md:items-center">
+        <Reveal className="mt-6 flex flex-col gap-8 rounded-[2rem] border-2 border-dashed border-violet/40 bg-paper p-8 sm:p-10 md:flex-row md:items-center">
           <Wrench className="size-12 shrink-0 text-violet" />
           <div className="flex-1">
             <p className="eyebrow text-violet">04 — Website care</p>
@@ -286,7 +286,7 @@ export function Pricing({ full = false }: { full?: boolean }) {
   return (
     <section className="py-24 lg:py-32">
       <div className="container-g">
-        <SectionHead eyebrow="Pricing" title="Choose what your business actually needs." intro="Honest starting points. Every project gets a written scope before any payment." />
+        <SectionHead eyebrow="Pricing" title={<>Choose what your business <span className="highlight-word">actually needs.</span></>} intro="Honest starting points. Every project gets a written scope before any payment." />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {PLANS.map((p, i) => (
             <Reveal key={p.id} delay={i * 90} className={`card-lift flex flex-col rounded-[2rem] p-8 ${p.featured ? "lg:-translate-y-4 ring-2 ring-coral" : ""} ${p.featured ? "bg-ink text-on-dark shadow-float" : "border border-border bg-card"}`}>
@@ -319,10 +319,10 @@ export function LeadFlow() {
   return (
     <section className="bg-ink py-24 text-on-dark lg:py-32">
       <div className="container-g">
-        <SectionHead tone="dark" eyebrow="How enquiries flow" title="A better website makes the next step easier." intro="Here's how a well-built enquiry system works. Notifications depend on which tools are set up for your business." />
+        <SectionHead tone="dark" eyebrow="How enquiries flow" title={<>A better website makes the <span className="highlight-word-dark">next step easier.</span></>} intro="Here's how a well-built enquiry system works. Notifications depend on which tools are set up for your business." />
         <ol className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
           {FLOW.map(([I, l], i) => (
-            <Reveal as="li" key={l} delay={i * 110} className="card-lift relative rounded-2xl border border-line-dark bg-midnight p-5">
+            <Reveal as="li" key={l} delay={i * 110} className="card-lift card-dark relative rounded-2xl border p-5">
               <span className="text-xs text-on-dark-muted">Step {i + 1}</span>
               <I className="mt-3 size-7 text-aqua" />
               <p className="mt-3 font-semibold">{l}</p>
@@ -340,7 +340,7 @@ export function Analytics() {
   return (
     <section className="py-24 lg:py-32">
       <div className="container-g grid items-center gap-12 lg:grid-cols-2">
-        <SectionHead eyebrow="Simple reporting" title="Know what your website is doing." intro="An example of the simple monthly report we can set up. Actual reporting depends on your analytics setup and available data — and visits or clicks are not the same as paying customers." />
+        <SectionHead eyebrow="Simple reporting" title={<>Know what your website <span className="highlight-word">is doing.</span></>} intro="An example of the simple monthly report we can set up. Actual reporting depends on your analytics setup and available data — and visits or clicks are not the same as paying customers." />
         <Reveal className="card-lift rounded-[2rem] border border-border bg-card p-6 shadow-soft sm:p-8">
           <div className="flex items-center justify-between"><h3 className="font-semibold text-ink">Last 30 days</h3><span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">Illustrative demo data</span></div>
           <ul className="mt-6 space-y-5">
@@ -386,7 +386,7 @@ export function FinalCTA() {
     <section className="bg-hero relative overflow-hidden py-24 lg:py-32">
       <div className="anim-float absolute -right-20 -top-20 size-80 rounded-full bg-brand opacity-40 blur-3xl" aria-hidden="true" />
       <div className="container-g relative text-center">
-        <h2 className="text-section mx-auto max-w-4xl font-bold text-on-dark">Let's make your next website your best first impression.</h2>
+        <h2 className="text-section mx-auto max-w-4xl font-bold text-on-dark">Let's make your next website your <span className="highlight-word-dark">best first impression.</span></h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-on-dark-muted">Tell us about your business and what you want to achieve online. We'll discuss the right scope, design, and next steps.</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link to="/contact" className="btn btn-primary">Start Your Project <ArrowRight className="size-4" /></Link>
