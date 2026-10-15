@@ -6,6 +6,7 @@ import craft from "@/assets/work-craft.jpg";
 import meridian from "@/assets/work-meridian.jpg";
 import { CountUp, Reveal, SectionHead } from "./Brand";
 import { Hero3D } from "./Hero3D";
+import { EnquiryJourney } from "./EnquiryJourney";
 
 /* ---------------- HERO ---------------- */
 export function Hero() {
@@ -59,7 +60,7 @@ export function Problem() {
     <section className="py-24 lg:py-32">
       <div className="container-g grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-          <SectionHead eyebrow="Why it matters" title={<>Looking <span className="highlight-word">professional online</span> should not be complicated.</>} intro="Many small businesses run into at least one of these. We help untangle whichever ones apply to you." />
+          <SectionHead eyebrow="Why it matters" title={<>Looking professional online should not be <span className="highlight-word">complicated.</span></>} intro="Many small businesses run into at least one of these. We help untangle whichever ones apply to you." />
         </div>
         <ol className="space-y-4 lg:col-span-7">
           {PROBLEMS.map(([t, d], i) => (
@@ -119,7 +120,7 @@ export function Services({ full = false }: { full?: boolean }) {
             <h3 className="mt-4 text-2xl font-bold sm:text-3xl">Make it easier for customers to reach you — and keep enquiries organised.</h3>
             <div className="mt-6 flex flex-wrap gap-2">
               {([["Enquiry forms", "now"], ["Click-to-call & WhatsApp", "now"], ["Google Sheets lead records", "setup"], ["Email notifications", "setup"], ["Basic lead organisation", "setup"]] as [string, Avail][]).map(([d, a]) => (
-                <span key={d} className="flex items-center gap-2 rounded-full bg-paper/90 px-3 py-1.5 text-sm">{d}<Tag a={a} /></span>
+                <span key={d} className="flex w-full flex-wrap items-center justify-between gap-2 border-b border-ink/20 py-3 text-sm">{d}<Tag a={a} /></span>
               ))}
             </div>
           </Reveal>
@@ -134,7 +135,7 @@ export function Services({ full = false }: { full?: boolean }) {
         </div>
 
         {/* 04 — care */}
-        <Reveal className="mt-6 flex flex-col gap-8 rounded-[2rem] border-2 border-dashed border-violet/40 bg-paper p-8 sm:p-10 md:flex-row md:items-center">
+        <Reveal className="mt-6 flex flex-col gap-8 rounded-[2rem] border border-border bg-paper p-8 sm:p-10 md:flex-row md:items-center">
           <Wrench className="size-12 shrink-0 text-violet" />
           <div className="flex-1">
             <p className="eyebrow text-violet">04 — Website care</p>
@@ -312,26 +313,8 @@ export function Pricing({ full = false }: { full?: boolean }) {
 }
 
 /* ---------------- LEAD FLOW ---------------- */
-const FLOW = [
-  [UserRound, "Visitor arrives"], [Send, "Submits enquiry"], [ClipboardCheck, "Form is checked"], [FileSpreadsheet, "Saved to your sheet"], [Bell, "You're notified"], [PhoneCall, "You follow up"],
-] as const;
 export function LeadFlow() {
-  return (
-    <section className="bg-ink py-24 text-on-dark lg:py-32">
-      <div className="container-g">
-        <SectionHead tone="dark" eyebrow="How enquiries flow" title={<>A better website makes the <span className="highlight-word-dark">next step easier.</span></>} intro="Here's how a well-built enquiry system works. Notifications depend on which tools are set up for your business." />
-        <ol className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {FLOW.map(([I, l], i) => (
-            <Reveal as="li" key={l} delay={i * 110} className="card-lift card-dark relative rounded-2xl border p-5">
-              <span className="text-xs text-on-dark-muted">Step {i + 1}</span>
-              <I className="mt-3 size-7 text-aqua" />
-              <p className="mt-3 font-semibold">{l}</p>
-            </Reveal>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
+  return <EnquiryJourney />;
 }
 
 /* ---------------- ANALYTICS ---------------- */
@@ -342,7 +325,7 @@ export function Analytics() {
       <div className="container-g grid items-center gap-12 lg:grid-cols-2">
         <SectionHead eyebrow="Simple reporting" title={<>Know what your website <span className="highlight-word">is doing.</span></>} intro="An example of the simple monthly report we can set up. Actual reporting depends on your analytics setup and available data — and visits or clicks are not the same as paying customers." />
         <Reveal className="card-lift rounded-[2rem] border border-border bg-card p-6 shadow-soft sm:p-8">
-          <div className="flex items-center justify-between"><h3 className="font-semibold text-ink">Last 30 days</h3><span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">Illustrative demo data</span></div>
+          <div className="flex flex-wrap items-center justify-between gap-3"><h3 className="font-semibold text-ink">Last 30 days</h3><span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">Illustrative demo data</span></div>
           <ul className="mt-6 space-y-5">
             {STATS.map(([l, v, c]) => (
               <li key={l}>
@@ -384,7 +367,6 @@ export function About() {
 export function FinalCTA() {
   return (
     <section className="bg-hero relative overflow-hidden py-24 lg:py-32">
-      <div className="anim-float absolute -right-20 -top-20 size-80 rounded-full bg-brand opacity-40 blur-3xl" aria-hidden="true" />
       <div className="container-g relative text-center">
         <h2 className="text-section mx-auto max-w-4xl font-bold text-on-dark">Let's make your next website your <span className="highlight-word-dark">best first impression.</span></h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-on-dark-muted">Tell us about your business and what you want to achieve online. We'll discuss the right scope, design, and next steps.</p>
@@ -403,7 +385,7 @@ export function PageHero({ eyebrow, title, intro }: { eyebrow: string; title: st
     <section className="bg-hero pt-36 pb-20">
       <div className="container-g">
         <p className="eyebrow anim-rise text-aqua">{eyebrow}</p>
-        <h1 className="anim-rise mt-4 max-w-4xl text-[clamp(2.4rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-on-dark">{title}</h1>
+        <h1 className="text-page-title anim-rise mt-4 max-w-4xl font-bold text-on-dark">{title}</h1>
         {intro && <p className="anim-rise mt-6 max-w-2xl text-lg text-on-dark-muted">{intro}</p>}
       </div>
     </section>
