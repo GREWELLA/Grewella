@@ -1,0 +1,3 @@
+- [x] Strengthen light and dark card contrast and highlight selected heading words.
+- [x] Replace the boxed G logo with uppercase GREWELLA in navigation and footer.
+- [x] Verify desktop and phone layouts and shared branding.
