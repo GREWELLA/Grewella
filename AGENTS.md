@@ -13,3 +13,4 @@
 - Leads (enquiries + consultation requests) are stored in the owner's Google Sheet via the Google Sheets connector from `src/lib/leads.server.ts`; sheet ID comes from the `GREWELLA_SHEET_ID` secret. Why: owner wants leads in "Grewella's Leads" sheet, no database.
 - Hero 3D is layered CSS 3D transforms (no WebGL). Why: keeps mobile performance high.
 - Business constants (phone, form options) live in `src/lib/site.ts`. Why: one place to replace placeholders.
+- The enquiry journey uses a shared client-side illustrative preview, separate from form submission logic. Why: interactive service demonstrations must not send or imply real enquiries.
